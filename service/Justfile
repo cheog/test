@@ -1,0 +1,41 @@
+set positional-arguments
+
+# Run black and isort on all the files
+format:
+    poetry run black service
+    poetry run isort service
+
+# Run ruff and mypy on all the files
+lint:
+    poetry run ruff check service/
+    poetry run mypy service/
+
+# Take a list of files in pre-commit format and run black and isort on them
+pre-commit-format +FILES:
+    #!/usr/bin/env python3
+    from pathlib import Path
+    from sys import argv
+    from shlex import quote
+    from subprocess import run
+    items = [Path(*Path(item).parts[1:]) for item in argv[1:]]
+    ret = run(["poetry", "run", "--directory", "service", "black"] + items)
+    if ret.returncode != 0:
+        exit(ret.returncode)
+    ret = run(["poetry", "run", "--directory", "service", "isort"] + items)
+    if ret.returncode != 0:
+        exit(ret.returncode)
+
+# Take a list of files in pre-commit format and run ruff and mypy on them
+pre-commit-lint +FILES:
+    #!/usr/bin/env python3
+    from pathlib import Path
+    from sys import argv
+    from shlex import quote
+    from subprocess import run
+    items = [Path(*Path(item).parts[1:]) for item in argv[1:]]
+    ret = run(["poetry", "run", "--directory", "service", "ruff", "check"] + items)
+    if ret.returncode != 0:
+        exit(ret.returncode)
+    ret = run(["poetry", "run", "--directory", "service", "mypy"] + items)
+    if ret.returncode != 0:
+        exit(ret.returncode)

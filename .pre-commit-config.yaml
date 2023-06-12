@@ -1,0 +1,27 @@
+repos:
+- repo: local
+  hooks:
+    - id: pulumi-infra-lint
+      name: pulumi-infra-lint
+      entry: just infra-pulumi/pre-commit-lint
+      language: system
+      types: [python]
+      files: "infra-pulumi/.*"
+    - id: pulumi-infra-format
+      name: pulumi-infra-format
+      entry: just infra-pulumi/pre-commit-format
+      language: system
+      types: [python]
+      files: "infra-pulumi/.*"
+    - id: service-format
+      name: service-format
+      entry: just service/pre-commit-format
+      language: system
+      types: [python]
+      files: "service/.*"
+    - id: service-lint
+      name: service-lint
+      entry: just service/pre-commit-lint
+      language: system
+      types: [python]
+      files: "service/.*"

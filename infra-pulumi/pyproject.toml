@@ -1,0 +1,73 @@
+[tool.poetry]
+name = "infra-pulumi"
+version = "0.1.0"
+description = ""
+authors = ["Che OG <cheog@protonmail.com>"]
+readme = "README.md"
+packages = [
+    {include = "src/"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pulumi = "^3.69.0"
+pulumi-aws = "^5.41.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.272"
+black = "^23.3.0"
+mypy = "^1.3.0"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+py_version = 311
+line_length = 120
+
+[tool.mypy]
+packages = ["src"]
+#plugins = ["pydantic.mypy"]
+#disallow_untyped_defs = true
+strict = true
+pretty = true
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+extend-select = [
+    "RUF100",  # Ensures that any `noqa`s are actual blocking something
+    "W",  # General stuff usually having to do with whitespace
+    "N",  # Enforces pep8 naming
+    "D",  # Enforces documentation
+    "UP",  # Enforces more modern python
+    "ANN",  # Enforces type annotations
+    "S",  # Bandit
+    "B",  # Bugbear
+    "BLE",  # No blind exceptions
+    "A",  # Rules against shadowing builtins and arguments
+    "C4",  # Rules against superfluous stuff in comprehensions
+    "DTZ",  # Enforce timezones in all datetimes
+    "ARG",  # Disallow unused arguments
+    "PTH",  # Force pathlib instead of os stuff
+    "ERA",  # Disallow commented out code
+]
+ignore = [
+    "D203",  # D203 and D211 conflict, prefer D211 no blank lines before class docstring
+    "D212",  # D212 and D213 conflict, prefer D213 multiline docstring starts on second line
+    "D400",  # First line should end with a period
+    "D415",  # First line should end with some sort of punctuation
+    "S603",  # **IMPORTANT** Ignores a warning to check input of subprocess. This is okay since this is an internal tool
+    "S607",  # Start a process without an absolute path to the executable
+]
