@@ -1,4 +1,5 @@
 name: IDK Bruh
+on: push
 jobs:
   format-infra-pulumi:
     runs-on: ubuntu-latest
