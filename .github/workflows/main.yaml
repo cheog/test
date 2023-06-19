@@ -1,0 +1,27 @@
+name: IDK Bruh
+jobs:
+  format-infra-pulumi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - run: poetry install
+      - uses: extractions/setup-just@v1
+      - run: just infra-pulumi/pre-commit-format
+
+  lint-infra-pulumi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - run: poetry install
+      - uses: extractions/setup-just@v1
+      - run: just infra-pulumi/pre-commit-lint
