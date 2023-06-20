@@ -52,3 +52,27 @@ jobs:
       - uses: extractions/setup-just@v1
       - run: cd service && poetry install
       - run: just service/lint
+
+  deploy-docs:
+    name: Deploy docs
+    on:
+      push:
+        branches:
+          - main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: 'poetry'
+      - run: cd docs && poetry install
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+      - uses: actions/cache@v3
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - run: poetry run mkdocs gh-deploy --force
