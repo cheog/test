@@ -1,0 +1,78 @@
+name: Dev Check Steps
+on:
+  push:
+    branches:
+      - '**'
+      - '!master'
+jobs:
+  format-infra-pulumi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - uses: extractions/setup-just@v1
+      - run: cd infra-pulumi && poetry install
+      - run: just infra-pulumi/format
+
+  lint-infra-pulumi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - uses: extractions/setup-just@v1
+      - run: cd infra-pulumi && poetry install
+      - run: just infra-pulumi/lint
+
+  format-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - uses: extractions/setup-just@v1
+      - run: cd service && poetry install
+      - run: just service/format
+
+  lint-service:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'poetry'
+      - uses: extractions/setup-just@v1
+      - run: cd service && poetry install
+      - run: just service/lint
+
+  check-docs:
+    name: Check docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: pipx install poetry
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: 'poetry'
+      - run: cd docs && poetry install --no-root
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+      - uses: actions/cache@v3
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - run: cd docs && poetry run mkdocs build --strict
