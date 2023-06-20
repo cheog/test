@@ -1,5 +1,9 @@
-name: IDK Bruh
-on: push
+name: Dev Check Steps
+on:
+  push:
+    branches:
+      - '**'
+      - '!master'
 jobs:
   format-infra-pulumi:
     runs-on: ubuntu-latest
@@ -53,12 +57,8 @@ jobs:
       - run: cd service && poetry install
       - run: just service/lint
 
-  deploy-docs:
-    name: Deploy docs
-    on:
-      push:
-        branches:
-          - main
+  check-docs:
+    name: Check docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -75,4 +75,4 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: poetry run mkdocs gh-deploy --force
+      - run: poetry run mkdocs build --strict
