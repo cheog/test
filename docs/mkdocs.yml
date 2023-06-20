@@ -1,0 +1,70 @@
+site_name: Test Template
+site_description: Some description of the package
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: "#8e0eff"
+      accent: "#ba0eff"
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+    - scheme: slate
+      primary: "#8e0eff"
+      accent: "#ba0eff"
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+  features:
+    - search.suggest
+    - content.code.annotate
+    - content.code.copy
+  language: en
+repo_name: cheog/test
+repo_url: https://github.com/cheog/test
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: "python"
+      handlers:
+        python:
+          paths:
+            - "../service"
+          options:
+            members_order: "source"
+            new_path_syntax: true
+            separate_signature: false
+            show_if_no_docstring: true
+            show_root_heading: true
+            show_source: false
+            show_root_members_full_path: true
+            docstring_section_style: "list"
+            heading_level: 1
+            show_signature_annotations: true
+
+nav:
+  - "Test": "index.md"
