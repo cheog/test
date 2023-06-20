@@ -75,4 +75,4 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: poetry run mkdocs build --strict
+      - run: cd docs && poetry run mkdocs build --strict
