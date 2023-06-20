@@ -10,8 +10,8 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'poetry'
-      - run: poetry install
       - uses: extractions/setup-just@v1
+      - run: cd infra-pulumi && poetry install
       - run: just infra-pulumi/pre-commit-format
 
   lint-infra-pulumi:
@@ -23,6 +23,6 @@ jobs:
         with:
           python-version: '3.11'
           cache: 'poetry'
-      - run: poetry install
       - uses: extractions/setup-just@v1
+      - run: cd infra-pulumi && poetry install
       - run: just infra-pulumi/pre-commit-lint
