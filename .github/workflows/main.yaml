@@ -67,7 +67,7 @@ jobs:
         with:
           python-version: 3.11
           cache: 'poetry'
-      - run: cd docs && poetry install
+      - run: cd docs && poetry install --no-root
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
       - uses: actions/cache@v3
         with:

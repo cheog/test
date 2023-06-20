@@ -1,10 +1,10 @@
 [tool.poetry]
-name = "me-thing"
+name = "service"
 version = "0.1.0"
 description = ""
 authors = ["Che OG <cheog@protonmail.com>"]
 readme = "README.md"
-packages = [{include = "me_thing"}]
+packages = [{include = "service"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
