@@ -15,7 +15,8 @@ jobs:
         with:
           python-version: 3.11
           cache: 'poetry'
-      - run: cd docs && poetry install --no-root
+      - run: poetry install --no-root
+        working-directory: docs
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
       - uses: actions/cache@v3
         with:
@@ -23,4 +24,5 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: cd docs && poetry run mkdocs gh-deploy --force
+      - run: poetry run mkdocs gh-deploy --force
+        working-directory: docs

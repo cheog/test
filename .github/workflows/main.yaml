@@ -15,7 +15,8 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - uses: extractions/setup-just@v1
-      - run: cd infra-pulumi && poetry install
+      - run: poetry install
+        working-directory: infra-pulumi
       - run: just infra-pulumi/format
 
   lint-infra-pulumi:
@@ -28,7 +29,8 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - uses: extractions/setup-just@v1
-      - run: cd infra-pulumi && poetry install
+      - run: poetry install
+        working-directory: infra-pulumi
       - run: just infra-pulumi/lint
 
   format-service:
@@ -41,7 +43,8 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - uses: extractions/setup-just@v1
-      - run: cd service && poetry install
+      - run: poetry install
+        working-directory: service
       - run: just service/format
 
   lint-service:
@@ -54,7 +57,8 @@ jobs:
           python-version: '3.11'
           cache: 'poetry'
       - uses: extractions/setup-just@v1
-      - run: cd service && poetry install
+      - run: poetry install
+        working-directory: service
       - run: just service/lint
 
   check-docs:
@@ -67,7 +71,8 @@ jobs:
         with:
           python-version: 3.11
           cache: 'poetry'
-      - run: cd docs && poetry install --no-root
+      - run: poetry install --no-root
+        working-directory: docs
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
       - uses: actions/cache@v3
         with:
@@ -75,4 +80,5 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: cd docs && poetry run mkdocs build --strict
+      - run: poetry run mkdocs build --strict
+        working-directory: docs
